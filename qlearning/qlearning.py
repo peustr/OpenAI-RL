@@ -1,17 +1,20 @@
 import random
 import numpy as np
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 
 
 class QLearningAgent(object):
-    def __init__(self, env, epsilon=0.95, gamma=0.99):
+    def __init__(self, env, epsilon=0.95, gamma=0.99, model_filename=None):
         self.env = env
         self.epsilon = epsilon
         self.gamma = gamma
         self.state_dim = env.observation_space.shape[0]
         self.action_dim = env.action_space.n
-        self.model = build_model(self.state_dim, self.action_dim)
+        if model_filename is None:
+            self.model = build_model(self.state_dim, self.action_dim)
+        else:
+            self.model = load_model(model_filename)
         self.memory = []
 
     def remember(self, state, action, reward, next_state):

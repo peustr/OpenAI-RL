@@ -1,0 +1,11 @@
+numpy
+scipy
+sklearn
+joblib
+tensorflow
+keras
+h5py
+matplotlib
+pandas
+jupyter
+gym[atari]
