@@ -5,7 +5,7 @@ from keras.layers import Dense
 
 
 class QLearningAgent(object):
-    def __init__(self, env, epsilon=0.95, gamma=0.99, model_filename=None):
+    def __init__(self, env, epsilon=0.95, gamma=0.99, memory_size=1000, model_filename=None):
         self.env = env
         self.epsilon = epsilon
         self.gamma = gamma
@@ -16,17 +16,24 @@ class QLearningAgent(object):
         else:
             self.model = load_model(model_filename)
         self.memory = []
+        self.memory_size = memory_size
 
     def remember(self, state, action, reward, next_state):
         self.memory.append((state, action, reward, next_state))
+        if len(self.memory) > self.memory_size:
+            self.memory = self.memory[100:]
 
-    def train(self):
-        for state, action, reward, next_state, in self.memory:
+    def train(self, batch_size=32):
+        X = []
+        y = []
+        minibatch = random.sample(self.memory, batch_size)
+        for state, action, reward, next_state, in minibatch:
             expected_reward = reward + self.gamma * np.max(self.model.predict(next_state)[0])
-            predicted_q_values = self.model.predict(state)
-            predicted_q_values[0][action] = expected_reward
-            self.model.fit(state, predicted_q_values, epochs=1, verbose=0)
-        self.memory = []
+            predicted_q_values = self.model.predict(state)[0]
+            predicted_q_values[action] = expected_reward
+            X.append(state[0])
+            y.append(predicted_q_values)
+        self.model.fit(np.array(X), np.array(y), batch_size=batch_size, epochs=1, verbose=0)
 
     def act(self, state):
         if np.random.rand() > self.epsilon:

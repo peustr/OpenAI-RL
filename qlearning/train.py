@@ -1,4 +1,5 @@
 import gym
+import numpy as np
 import sys
 from agent import QLearningAgent
 from datetime import datetime
@@ -14,20 +15,23 @@ try:
 except IndexError:
     num_episodes = 2000
 
+
+def norm_state(state):
+    return (np.array(state) / 255).reshape(1, len(state))
+
+
 env = gym.make(env_name)
 agent = QLearningAgent(env)
-
-state_dim = env.observation_space.shape[0]
 for i_episode in range(num_episodes):
     ts_start = datetime.now()
-    state = env.reset().reshape(1, state_dim)
+    state = norm_state(env.reset())
     done = False
     total_reward = 0
     while not done:
         env.render()  # Comment out for faster training.
         action = agent.act(state)
         next_state, reward, done, info = env.step(action)
-        next_state = next_state.reshape(1, state_dim)
+        next_state = norm_state(next_state)
         agent.remember(state, action, reward, next_state)
         state = next_state
         total_reward += reward
