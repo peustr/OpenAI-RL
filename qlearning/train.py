@@ -1,6 +1,7 @@
 import gym
 import sys
 from agent import QLearningAgent
+from datetime import datetime
 
 
 try:
@@ -18,9 +19,10 @@ agent = QLearningAgent(env)
 
 state_dim = env.observation_space.shape[0]
 for i_episode in range(num_episodes):
-    print("Episode:", i_episode + 1)
+    ts_start = datetime.now()
     state = env.reset().reshape(1, state_dim)
     done = False
+    total_reward = 0
     while not done:
         env.render()  # Comment out for faster training.
         action = agent.act(state)
@@ -28,9 +30,13 @@ for i_episode in range(num_episodes):
         next_state = next_state.reshape(1, state_dim)
         agent.remember(state, action, reward, next_state)
         state = next_state
+        total_reward += reward
+    ts_end = datetime.now()
+    episode_interval = (ts_end - ts_start).total_seconds()
+    print("Episode {} ended in {} seconds. Total reward: {}".format(i_episode + 1, episode_interval, total_reward))
     agent.train()
 
-model_filename = "{}_{}e".format(env_name, num_episodes)
+model_filename = "{}_{}e.h5".format(env_name, num_episodes)
 agent.save_model(model_filename)
 
 env.close()
