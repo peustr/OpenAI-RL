@@ -18,7 +18,7 @@ class QLearningAgent(object):
         self.memory = []
         self.memory_size = memory_size
 
-    def remember(self, state, action, reward, next_statem done):
+    def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
         if len(self.memory) > self.memory_size:
             self.memory = self.memory[100:]
