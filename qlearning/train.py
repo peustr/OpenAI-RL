@@ -32,7 +32,7 @@ for i_episode in range(num_episodes):
         action = agent.act(state)
         next_state, reward, done, info = env.step(action)
         next_state = norm_state(next_state)
-        agent.remember(state, action, reward, next_state)
+        agent.remember(state, action, reward, next_state, done)
         state = next_state
         total_reward += reward
     ts_end = datetime.now()

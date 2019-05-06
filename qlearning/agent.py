@@ -5,7 +5,7 @@ from keras.layers import Dense
 
 
 class QLearningAgent(object):
-    def __init__(self, env, epsilon=0.95, gamma=0.99, memory_size=1000, model_filename=None):
+    def __init__(self, env, epsilon=0.95, gamma=0.9, memory_size=1000, model_filename=None):
         self.env = env
         self.epsilon = epsilon
         self.gamma = gamma
@@ -18,8 +18,8 @@ class QLearningAgent(object):
         self.memory = []
         self.memory_size = memory_size
 
-    def remember(self, state, action, reward, next_state):
-        self.memory.append((state, action, reward, next_state))
+    def remember(self, state, action, reward, next_statem done):
+        self.memory.append((state, action, reward, next_state, done))
         if len(self.memory) > self.memory_size:
             self.memory = self.memory[100:]
 
@@ -27,8 +27,11 @@ class QLearningAgent(object):
         X = []
         y = []
         minibatch = random.sample(self.memory, batch_size)
-        for state, action, reward, next_state, in minibatch:
-            expected_reward = reward + self.gamma * np.max(self.model.predict(next_state)[0])
+        for state, action, reward, next_state, done in minibatch:
+            if done:
+                expected_reward = reward
+            else:
+                expected_reward = reward + self.gamma * np.max(self.model.predict(next_state)[0])
             predicted_q_values = self.model.predict(state)[0]
             predicted_q_values[action] = expected_reward
             X.append(state[0])
