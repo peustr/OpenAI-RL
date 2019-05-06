@@ -1,5 +1,4 @@
 import sys
-from datetime import datetime
 
 import gym
 
@@ -17,15 +16,26 @@ try:
 except IndexError:
     model_filename = "Boxing-ram-v0_10000e.h5"
 
-env = gym.make(env_name)
-agent = QLearningAgent(env, model_filename=model_filename)
+try:
+    num_episodes = int(sys.argv[3])
+except IndexError:
+    num_episodes = 10
 
-state = normalize_state(env.reset())
-done = False
-while not done:
-    env.render()
-    action = agent.act(state)
-    state, reward, done, info = env.step(action)
-    state = normalize_state(state)
+print("Playing agent {} for {} episodes.".format(model_filename, num_episodes))
+
+env = gym.make(env_name)
+agent = QLearningAgent(env, epsilon=1.0, model_filename=model_filename)
+
+for i_episode in range(num_episodes):
+    state = normalize_state(env.reset())
+    done = False
+    total_reward = 0
+    while not done:
+        env.render()
+        action = agent.act(state)
+        state, reward, done, info = env.step(action)
+        state = normalize_state(state)
+        total_reward += reward
+    print("Episode {} reward: {}".format(i_episode + 1, reward))
 
 env.close()
