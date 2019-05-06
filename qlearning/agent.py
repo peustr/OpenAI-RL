@@ -5,7 +5,7 @@ from keras.layers import Dense
 
 
 class QLearningAgent(object):
-    def __init__(self, env, epsilon=0.95, gamma=0.9, memory_size=10000, model_filename=None):
+    def __init__(self, env, epsilon=0.95, gamma=0.9, memory_size=1000, model_filename=None):
         self.env = env
         self.epsilon = epsilon
         self.gamma = gamma

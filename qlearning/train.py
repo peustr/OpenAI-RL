@@ -32,7 +32,7 @@ for i_episode in range(num_episodes):
     done = False
     while not done:
         # Comment out env.render() for faster training.
-        env.render()
+        # env.render()
         action = agent.act(state)
         next_state, reward, done, info = env.step(action)
         next_state = normalize_state(next_state)
