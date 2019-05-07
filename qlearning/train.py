@@ -3,7 +3,7 @@ from datetime import datetime
 
 import gym
 
-from agent import QLearningAgent
+from agent import DQNAgent
 from utils import normalize_state
 
 
@@ -18,7 +18,7 @@ except IndexError:
     num_episodes = 2000
 
 env = gym.make(env_name)
-agent = QLearningAgent(env)
+agent = DQNAgent(env)
 
 for i_episode in range(num_episodes):
     # For timing every episode.

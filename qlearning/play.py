@@ -2,7 +2,7 @@ import sys
 
 import gym
 
-from agent import QLearningAgent
+from agent import DQNAgent
 from utils import normalize_state
 
 
@@ -24,7 +24,7 @@ except IndexError:
 print("Playing agent {} for {} episodes.".format(model_filename, num_episodes))
 
 env = gym.make(env_name)
-agent = QLearningAgent(env, epsilon=1.0, model_filename=model_filename)
+agent = DQNAgent(env, epsilon=1.0, model_filename=model_filename)
 
 for i_episode in range(num_episodes):
     state = normalize_state(env.reset())
