@@ -36,6 +36,6 @@ for i_episode in range(num_episodes):
         state, reward, done, info = env.step(action)
         state = normalize_state(state)
         total_reward += reward
-    print("Episode {} reward: {}".format(i_episode + 1, reward))
+    print("Episode {} reward: {}".format(i_episode + 1, total_reward))
 
 env.close()
