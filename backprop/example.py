@@ -13,8 +13,8 @@ def mean_squared_error(y_, y):
     return np.mean(np.square(y_ - y))
 
 
-num_epochs = 100
-lr = 0.5
+num_epochs = 1000
+lr = 0.05
 
 X = np.array([0.05, 0.1])
 y = np.array([0.01, 0.99])
@@ -24,6 +24,7 @@ b1 = 0.35
 o1 = np.array([0.4, 0.45])
 o2 = np.array([0.5, 0.55])
 b2 = 0.6
+
 for epoch in range(num_epochs):
     # Forward
     # First layer
@@ -76,4 +77,4 @@ for epoch in range(num_epochs):
     if (epoch + 1) % 10 == 0:
         print("Epoch: {}, Loss: {}".format(epoch + 1, loss))
 
-print(h1[0], h1[1], h2[0], h2[1], o1[0], o1[1], o2[0], o2[1])
+# print(h1[0], h1[1], h2[0], h2[1], o1[0], o1[1], o2[0], o2[1])
