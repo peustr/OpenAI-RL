@@ -33,6 +33,7 @@ class REINFORCEAgent(object):
         for t in reversed(range(0, len(rewards))):
             running_add = running_add * self.gamma + rewards[t]
             dr[t] = running_add
+        dr = (dr - dr.mean()) / dr.std()
         return dr
 
     def save_model(self, filename):
