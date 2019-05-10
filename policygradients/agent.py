@@ -31,9 +31,8 @@ class REINFORCEAgent(object):
         dr = np.zeros(n)
         running_add = 0
         for t in reversed(range(0, len(rewards))):
-            running_add = running_add * self.gamma + rewards[t]
+            running_add = running_add * self.gamma + np.clip(rewards[t], -1.0, 1.0)
             dr[t] = running_add
-        dr = (dr - dr.mean()) / dr.std()
         return dr
 
     def save_model(self, filename):
