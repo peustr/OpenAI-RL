@@ -28,8 +28,12 @@ class REINFORCEAgent(object):
 
     def compute_discounted_rewards(self, rewards):
         n = len(rewards)
-        dr = np.power(self.gamma, np.arange(n)[::1]) * rewards
-        dr = (dr - dr.mean()) / dr.std()
+        dr = np.zeros(n)
+        running_add = 0
+        for t in reversed(range(n)):
+            running_add = running_add * self.gamma + rewards[t]
+            dr[t] = running_add
+        dr = (dr - np.mean(dr)) / np.std(dr)
         return dr
 
     def save_model(self, filename):

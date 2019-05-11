@@ -42,7 +42,9 @@ for i_episode in range(num_episodes):
 
     ts_end = datetime.now()
     episode_interval = (ts_end - ts_start).total_seconds()
-    print("Episode {} ended in {} seconds. Total reward: {}".format(i_episode + 1, episode_interval, total_reward))
+    print("Episode {} ended in {} seconds. Total reward: {}".format(
+        i_episode + 1, episode_interval, total_reward))
+
 
 model_filename = "{}_{}e.h5".format(env_name, num_episodes)
 agent.save_model(model_filename)

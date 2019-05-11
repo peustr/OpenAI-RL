@@ -13,7 +13,7 @@ except IndexError:
 try:
     model_filename = sys.argv[2]
 except IndexError:
-    model_filename = "CartPole-v0_5000e.h5"
+    model_filename = "CartPole-v0_2000e.h5"
 
 try:
     num_episodes = int(sys.argv[3])
