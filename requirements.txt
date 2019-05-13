@@ -8,5 +8,4 @@ h5py
 matplotlib
 pandas
 jupyter
-gym[atari]
-gym[box2d]
+gym[atari,box2d]
